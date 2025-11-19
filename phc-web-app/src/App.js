@@ -118,17 +118,29 @@ function App() {
     }
   };
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
     if (newEvent.title && newEvent.date && newEvent.description) {
-      const event = {
-        id: events.length + 1,
-        title: newEvent.title,
-        date: newEvent.date,
-        description: newEvent.description,
-        image: newEvent.image || 'https://placehold.co/600x400/4f46e5/white?text=Event+Photo'
-      };
-      setEvents([...events, event]);
-      setNewEvent({ title: '', date: '', description: '', image: null });
+      try {
+        const formData = new FormData();
+        formData.append('title', newEvent.title);
+        formData.append('date', newEvent.date);
+        formData.append('description', newEvent.description);
+        if (newEvent.imageFile) {
+          formData.append('image', newEvent.imageFile);
+        }
+
+        await fetch(`${API_BASE}/events`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        alert('Event added successfully!');
+        fetchEvents(); // Refresh the events list
+        setNewEvent({ title: '', date: '', description: '', imageFile: null, image: null });
+      } catch (error) {
+        console.error('Error adding event:', error);
+        alert('Failed to add event. Please try again.');
+      }
     }
   };
 
