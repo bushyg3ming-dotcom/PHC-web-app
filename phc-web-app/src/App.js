@@ -1,14 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [announcements, setAnnouncements] = useState([
-    { id: 1, title: 'Sunday Service This Weekend', date: 'Nov 16, 2025', content: 'Join us for our weekly worship service with Pastor Kater. Special music and testimonies.' },
-    { id: 2, title: 'Youth Group Meeting', date: 'Nov 18, 2025', content: 'Youth group meeting in Fellowship Hall at 7 PM. Bring a friend!' },
-    { id: 3, title: 'Women\'s Ministry Retreat', date: 'Dec 5-7, 2025', content: 'Annual women\'s retreat at the conference center. Register by Nov 25.' }
-  ]);
+  const [announcements, setAnnouncements] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // API base URL
+  const API_BASE = 'http://localhost:3001/api';
+
+  // Fetch announcements on component mount
+  useEffect(() => {
+    fetchAnnouncements();
+    fetchEvents();
+  }, []);
+
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await fetch(`${API_BASE}/announcements`);
+      const data = await response.json();
+      setAnnouncements(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching announcements:', error);
+      setLoading(false);
+    }
+  };
+
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch(`${API_BASE}/events`);
+      const data = await response.json();
+      setEvents(data);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
+  };
 
   const [donationAmount, setDonationAmount] = useState(50);
   const [donationName, setDonationName] = useState('');
@@ -16,6 +44,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [selectedPastor, setSelectedPastor] = useState('');
+  const [newsletterEmail, setNewsletterEmail] = useState('');
   const [currentVideo, setCurrentVideo] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
   const [events, setEvents] = useState([
     { id: 1, title: 'Youth Camp', date: 'Dec 15-17, 2025', description: 'Annual youth camp with worship, games, and fellowship.', image: 'https://placehold.co/600x400/4f46e5/white?text=Youth+Camp' },
@@ -23,6 +52,14 @@ function App() {
   ]);
   const [newEvent, setNewEvent] = useState({ title: '', date: '', description: '', image: null });
   const [anonymousMode, setAnonymousMode] = useState(false);
+  const [registrationName, setRegistrationName] = useState('');
+  const [registrationEmail, setRegistrationEmail] = useState('');
+  const [registrationPhone, setRegistrationPhone] = useState('');
+  const [registrationDateOfBirth, setRegistrationDateOfBirth] = useState('');
+  const [registrationArea, setRegistrationArea] = useState('');
+  const [registrationEducation, setRegistrationEducation] = useState('');
+  const [registrationReason, setRegistrationReason] = useState('');
+  const [registrationTerms, setRegistrationTerms] = useState(false);
 
   const pastors = [
     { id: 1, name: 'Pastor Graham Kater', specialty: 'Youth Ministry', image: 'https://placehold.co/150x150/4f46e5/white?text=PW' },
@@ -31,24 +68,54 @@ function App() {
     { id: 4, name: 'Pastor Lisa Davis', specialty: 'Children\'s Ministry', image: 'https://placehold.co/150x150/10b981/white?text=LD' }
   ];
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (newMessage.trim() && selectedPastor) {
-      const message = {
-        id: messages.length + 1,
-        pastor: selectedPastor,
-        message: newMessage,
-        timestamp: new Date().toLocaleTimeString(),
-        status: 'sent',
-        anonymous: anonymousMode
-      };
-      setMessages([...messages, message]);
-      setNewMessage('');
-      setAnonymousMode(false);
+      try {
+        await fetch(`${API_BASE}/pastor-messages`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            pastor: selectedPastor,
+            message: newMessage,
+            anonymous: anonymousMode
+          }),
+        });
+        alert('Message sent successfully!');
+        setNewMessage('');
+        setSelectedPastor('');
+        setAnonymousMode(false);
+      } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Failed to send message. Please try again.');
+      }
     }
   };
 
-  const handleDonation = () => {
-    alert(`Thank you for your donation of R${donationAmount}! Your payment will be processed through PayFast.`);
+  const handleDonation = async () => {
+    if (donationName && donationEmail && donationAmount > 0) {
+      try {
+        await fetch(`${API_BASE}/donations`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: donationName,
+            email: donationEmail,
+            amount: donationAmount
+          }),
+        });
+        alert(`Thank you for your donation of R${donationAmount}! Your payment will be processed through PayFast.`);
+        setDonationName('');
+        setDonationEmail('');
+        setDonationAmount(50);
+      } catch (error) {
+        console.error('Error recording donation:', error);
+        alert('Failed to record donation. Please try again.');
+      }
+    }
   };
 
   const handleAddEvent = () => {
@@ -369,10 +436,32 @@ function App() {
               <div className="flex space-x-4">
                 <input
                   type="email"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder="Enter your email address"
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <button
+                  onClick={async () => {
+                    if (newsletterEmail.trim()) {
+                      try {
+                        await fetch(`${API_BASE}/newsletter`, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({ email: newsletterEmail }),
+                        });
+                        alert('Successfully subscribed to newsletter!');
+                        setNewsletterEmail('');
+                      } catch (error) {
+                        console.error('Error subscribing:', error);
+                        alert('Failed to subscribe. Please try again.');
+                      }
+                    }
+                  }}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
                   Subscribe
                 </button>
               </div>
@@ -617,14 +706,53 @@ function App() {
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Join Our Pastoral Team</h2>
             <p className="text-gray-600 mb-6">We are always looking for dedicated servants of God to join our ministry team. Fill out the form below to express your interest in becoming a pastor at Pentecostal Holiness Church.</p>
 
-            <form className="space-y-6">
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              if (!registrationTerms) {
+                alert('Please agree to the terms and conditions');
+                return;
+              }
+              try {
+                await fetch(`${API_BASE}/pastor-registrations`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    full_name: registrationName,
+                    email: registrationEmail,
+                    phone: registrationPhone,
+                    date_of_birth: registrationDateOfBirth,
+                    area_of_interest: registrationArea,
+                    education: registrationEducation,
+                    reason: registrationReason,
+                    terms: registrationTerms
+                  }),
+                });
+                alert('Application submitted successfully!');
+                setRegistrationName('');
+                setRegistrationEmail('');
+                setRegistrationPhone('');
+                setRegistrationDateOfBirth('');
+                setRegistrationArea('');
+                setRegistrationEducation('');
+                setRegistrationReason('');
+                setRegistrationTerms(false);
+              } catch (error) {
+                console.error('Error submitting application:', error);
+                alert('Failed to submit application. Please try again.');
+              }
+            }} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
                   <input
                     type="text"
+                    value={registrationName}
+                    onChange={(e) => setRegistrationName(e.target.value)}
                     placeholder="Your full name"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
                   />
                 </div>
 
@@ -632,8 +760,11 @@ function App() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                   <input
                     type="email"
+                    value={registrationEmail}
+                    onChange={(e) => setRegistrationEmail(e.target.value)}
                     placeholder="Your email address"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
                   />
                 </div>
 
@@ -641,6 +772,8 @@ function App() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                   <input
                     type="tel"
+                    value={registrationPhone}
+                    onChange={(e) => setRegistrationPhone(e.target.value)}
                     placeholder="Your phone number"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -650,6 +783,8 @@ function App() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
                   <input
                     type="date"
+                    value={registrationDateOfBirth}
+                    onChange={(e) => setRegistrationDateOfBirth(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -657,7 +792,7 @@ function App() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Area of Interest</label>
-                <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select value={registrationArea} onChange={(e) => setRegistrationArea(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <option value="">Select an area...</option>
                   <option value="youth">Youth Ministry</option>
                   <option value="women">Women's Ministry</option>
@@ -671,6 +806,8 @@ function App() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Educational Background</label>
                 <textarea
+                  value={registrationEducation}
+                  onChange={(e) => setRegistrationEducation(e.target.value)}
                   placeholder="Please describe your educational background, theological training, and relevant experience..."
                   rows="4"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -680,6 +817,8 @@ function App() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Why do you want to join our pastoral team?</label>
                 <textarea
+                  value={registrationReason}
+                  onChange={(e) => setRegistrationReason(e.target.value)}
                   placeholder="Share your calling and vision for ministry..."
                   rows="4"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -690,6 +829,8 @@ function App() {
                 <input
                   type="checkbox"
                   id="terms"
+                  checked={registrationTerms}
+                  onChange={(e) => setRegistrationTerms(e.target.checked)}
                   className="rounded"
                 />
                 <label htmlFor="terms" className="text-sm text-gray-700">
