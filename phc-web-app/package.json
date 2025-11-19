@@ -15,7 +15,6 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "dev": "node server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
