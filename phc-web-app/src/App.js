@@ -353,11 +353,454 @@ function App() {
     </div>
   );
 
+  const NewsletterPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <span className="mr-3">📧</span>
+            Church Newsletter
+          </h1>
+
+          <div className="space-y-6">
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Subscribe to Our Newsletter</h2>
+              <p className="text-gray-600 mb-4">Stay connected with the latest news, events, and spiritual encouragement from Pentecostal Holiness Church.</p>
+              <div className="flex space-x-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  Subscribe
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Latest Newsletter</h3>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">November 2025 Newsletter</p>
+                  <p className="text-sm text-gray-600">Weekly updates and announcements</p>
+                </div>
+                <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  📥 Download
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const DonationsPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <span className="mr-3">💰</span>
+            Support Our Ministry
+          </h1>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Make a Donation</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Donation Amount (R)</label>
+                  <div className="grid grid-cols-4 gap-2 mb-4">
+                    {[25, 50, 100, 200].map(amount => (
+                      <button
+                        key={amount}
+                        onClick={() => setDonationAmount(amount)}
+                        className={`p-2 rounded-lg border ${
+                          donationAmount === amount ? 'border-blue-500 bg-blue-100' : 'border-gray-300 hover:border-gray-400'
+                        }`}
+                      >
+                        R{amount}
+                      </button>
+                    ))}
+                  </div>
+                  <input
+                    type="number"
+                    value={donationAmount}
+                    onChange={(e) => setDonationAmount(Number(e.target.value))}
+                    placeholder="Custom amount"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    value={donationName}
+                    onChange={(e) => setDonationName(e.target.value)}
+                    placeholder="Your full name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                  <input
+                    type="email"
+                    value={donationEmail}
+                    onChange={(e) => setDonationEmail(e.target.value)}
+                    placeholder="Your email address"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <button
+                  onClick={handleDonation}
+                  className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                >
+                  Donate R{donationAmount}
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Why Donate?</h2>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <span className="text-2xl">🙏</span>
+                  <div>
+                    <h3 className="font-medium">Support Ministry Work</h3>
+                    <p className="text-sm text-gray-600">Help us reach more people with the gospel</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <span className="text-2xl">🏠</span>
+                  <div>
+                    <h3 className="font-medium">Maintain Our Facilities</h3>
+                    <p className="text-sm text-gray-600">Keep our church building and programs running</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <span className="text-2xl">👨‍👩‍👧‍👦</span>
+                  <div>
+                    <h3 className="font-medium">Help Those in Need</h3>
+                    <p className="text-sm text-gray-600">Support community outreach and charity programs</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const PastorPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <span className="mr-3">💬</span>
+            Ask a Pastor
+          </h1>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Send a Message</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Select a Pastor</label>
+                  <select
+                    value={selectedPastor}
+                    onChange={(e) => setSelectedPastor(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Choose a pastor...</option>
+                    {pastors.map(pastor => (
+                      <option key={pastor.id} value={pastor.name}>{pastor.name} - {pastor.specialty}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                  <textarea
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Ask your spiritual question here..."
+                    rows="6"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="anonymous"
+                    checked={anonymousMode}
+                    onChange={(e) => setAnonymousMode(e.target.checked)}
+                    className="rounded"
+                  />
+                  <label htmlFor="anonymous" className="text-sm text-gray-700">Send anonymously</label>
+                </div>
+
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!newMessage.trim() || !selectedPastor}
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Send Message
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Our Pastors</h2>
+                <div className="grid gap-4">
+                  {pastors.map(pastor => (
+                    <div key={pastor.id} className="bg-white border border-gray-200 rounded-lg p-4 flex items-center space-x-4">
+                      <img src={pastor.image} alt={pastor.name} className="w-16 h-16 rounded-full object-cover" />
+                      <div>
+                        <h3 className="font-semibold text-gray-800">{pastor.name}</h3>
+                        <p className="text-sm text-gray-600">{pastor.specialty}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Your Messages</h2>
+            <div className="space-y-4">
+              {messages.map(message => (
+                <div key={message.id} className="border border-gray-200 rounded-lg p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <span className="font-semibold text-gray-800">To: {message.pastor}</span>
+                      {message.anonymous && <span className="ml-2 text-sm text-gray-500">(Anonymous)</span>}
+                    </div>
+                    <span className="text-sm text-gray-500">{message.timestamp}</span>
+                  </div>
+                  <p className="text-gray-700">{message.message}</p>
+                  <div className="mt-2">
+                    <span className={`inline-block px-2 py-1 text-xs rounded-full ${
+                      message.status === 'sent' ? 'bg-green-100 text-green-800' :
+                      message.status === 'replied' ? 'bg-blue-100 text-blue-800' :
+                      'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {message.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const PastorRegisterPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <span className="mr-3">👥</span>
+            Pastor Registration
+          </h1>
+
+          <div className="bg-blue-50 p-6 rounded-lg">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Join Our Pastoral Team</h2>
+            <p className="text-gray-600 mb-6">We are always looking for dedicated servants of God to join our ministry team. Fill out the form below to express your interest in becoming a pastor at Pentecostal Holiness Church.</p>
+
+            <form className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    placeholder="Your full name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="Your email address"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="Your phone number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                  <input
+                    type="date"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Area of Interest</label>
+                <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="">Select an area...</option>
+                  <option value="youth">Youth Ministry</option>
+                  <option value="women">Women's Ministry</option>
+                  <option value="men">Men's Ministry</option>
+                  <option value="children">Children's Ministry</option>
+                  <option value="worship">Worship Ministry</option>
+                  <option value="outreach">Community Outreach</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Educational Background</label>
+                <textarea
+                  placeholder="Please describe your educational background, theological training, and relevant experience..."
+                  rows="4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Why do you want to join our pastoral team?</label>
+                <textarea
+                  placeholder="Share your calling and vision for ministry..."
+                  rows="4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  className="rounded"
+                />
+                <label htmlFor="terms" className="text-sm text-gray-700">
+                  I agree to the church's terms and conditions for pastoral candidates
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+              >
+                Submit Application
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const LiveStreamPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <span className="mr-3">📺</span>
+            Live Stream
+          </h1>
+
+          <div className="space-y-6">
+            <div className="bg-gray-900 rounded-lg overflow-hidden">
+              <div className="aspect-video">
+                <iframe
+                  src={currentVideo}
+                  title="Live Stream"
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Stream Information</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-medium text-gray-800 mb-2">Weekly Service Times</h3>
+                  <div className="space-y-2 text-gray-600">
+                    <div className="flex justify-between">
+                      <span>Sunday Worship</span>
+                      <span>10:00 AM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Wednesday Prayer</span>
+                      <span>7:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Friday Bible Study</span>
+                      <span>6:00 PM</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-medium text-gray-800 mb-2">Stream Status</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                      <span className="text-gray-600">Stream: Online</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+                      <span className="text-gray-600">Recording: Off</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Join Our Online Community</h2>
+              <p className="text-gray-600 mb-4">Can't make it to church in person? Join us online for live worship, prayer, and fellowship!</p>
+              <div className="flex flex-wrap gap-4">
+                <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  💬 Join Chat
+                </button>
+                <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  🙏 Prayer Requests
+                </button>
+                <button className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                  📧 Newsletter Signup
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderPage = () => {
     switch(currentPage) {
       case 'home': return <HomePage />;
       case 'events': return <EventsPage />;
       case 'announcements': return <AnnouncementsPage />;
+      case 'newsletter': return <NewsletterPage />;
+      case 'donations': return <DonationsPage />;
+      case 'pastor': return <PastorPage />;
+      case 'pastorRegister': return <PastorRegisterPage />;
+      case 'live': return <LiveStreamPage />;
       default: return <HomePage />;
     }
   };
