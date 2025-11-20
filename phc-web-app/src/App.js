@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Mail, CreditCard, MessageCircle, Video, Heart, DollarSign, Send, Play, Phone, MapPin, Clock, Users, BookOpen, X, Menu, Camera, Plus, Settings } from 'lucide-react';
+import { Calendar, Mail, CreditCard, MessageCircle, Video, Heart, DollarSign, Send, Play, Phone, MapPin, Clock, Users, BookOpen, X, Menu, Camera, Plus } from 'lucide-react';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -31,8 +31,6 @@ const App = () => {
   const [registrationArea, setRegistrationArea] = useState('');
   const [registrationEducation, setRegistrationEducation] = useState('');
   const [registrationReason, setRegistrationReason] = useState('');
-  const [editingAnnouncement, setEditingAnnouncement] = useState(null);
-  const [newsletterDesc, setNewsletterDesc] = useState('This month\'s newsletter features our upcoming events, testimonies, and ministry updates.');
 
   const pastors = [
     { id: 1, name: 'Pastor Graham Kater', specialty: 'Youth Ministry', image: 'https://placehold.co/150x150/4f46e5/white?text=PW' },
@@ -105,8 +103,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
-              { id: 'live', label: 'Live Stream', icon: Video },
-              { id: 'admin', label: 'Admin', icon: Settings }
+              { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
                 key={item.id}
@@ -115,24 +112,24 @@ const App = () => {
                   currentPage === item.id ? 'bg-blue-700' : 'hover:bg-blue-800'
                 }`}
               >
+                <item.icon className="h-4 w-4" />
                 <span>{item.label}</span>
-                <item.icon className="h-5 w-5" />
               </button>
             ))}
           </div>
 
-          {/* Mobile Navigation Toggle */}
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg bg-blue-800 hover:bg-blue-700"
+            className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 py-4 border-t border-blue-800">
+          <div className="md:hidden py-4 border-t border-blue-700">
             {[
               { id: 'home', label: 'Home', icon: Heart },
               { id: 'events', label: 'Events', icon: Calendar },
@@ -141,8 +138,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
-              { id: 'live', label: 'Live Stream', icon: Video },
-              { id: 'admin', label: 'Admin', icon: Settings }
+              { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
                 key={item.id}
@@ -150,11 +146,11 @@ const App = () => {
                   setCurrentPage(item.id);
                   setMobileMenuOpen(false);
                 }}
-                className={`flex items-center space-x-2 w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                  currentPage === item.id ? 'bg-blue-800' : 'hover:bg-blue-800'
+                className={`flex items-center space-x-2 w-full px-3 py-2 rounded-lg transition-colors ${
+                  currentPage === item.id ? 'bg-blue-700' : 'hover:bg-blue-800'
                 }`}
               >
-                <item.icon className="h-5 w-5" />
+                <item.icon className="h-4 w-4" />
                 <span>{item.label}</span>
               </button>
             ))}
@@ -164,421 +160,693 @@ const App = () => {
     </nav>
   );
 
-  // Main content based on current page
-  const renderContent = () => {
-    switch (currentPage) {
-      case 'home':
-        return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h1 className="text-2xl font-bold text-gray-800 mb-4">Pentecostal Holiness Church</h1>
-              <p className="text-gray-600 mb-4">Where Faith Meets Community</p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <Heart className="h-12 w-12 text-blue-600 mx-auto mb-2" />
-                  <h3 className="font-semibold">Our Mission</h3>
-                  <p className="text-sm text-gray-600">To spread God's love and build community.</p>
-                </div>
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <Users className="h-12 w-12 text-green-600 mx-auto mb-2" />
-                  <h3 className="font-semibold">Join Us</h3>
-                  <p className="text-sm text-gray-600">Attend our services and events.</p>
-                </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg">
-                  <DollarSign className="h-12 w-12 text-purple-600 mx-auto mb-2" />
-                  <h3 className="font-semibold">Support</h3>
-                  <p className="text-sm text-gray-600">Help us continue our ministry.</p>
+  const HomePage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 text-center">
+          <Heart className="h-16 w-16 text-red-500 mx-auto mb-4" />
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">PHC</h1>
+          <p className="text-xl text-gray-600 mb-6">Where Faith Meets Community</p>
+          <div className="grid md:grid-cols-3 gap-6 mt-8">
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <Clock className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-lg">Service Times</h3>
+              <p>Sunday: 10:00 AM</p>
+              <p>Wednesday: 7:00 PM</p>
+            </div>
+            <div className="bg-green-50 p-6 rounded-lg">
+              <MapPin className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-lg">Location</h3>
+              <p>5 Frederick Street, Davidsonville</p>
+              <p>Roodepoort, 1724</p>
+            </div>
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <Phone className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-lg">Contact</h3>
+              <p>(011) 234-5678</p>
+              <p>info@phc.org.za</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Announcements */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Recent Announcements</h2>
+          <div className="space-y-4">
+            {announcements.slice(0, 3).map(ann => (
+              <div key={ann.id} className="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 className="font-semibold text-lg">{ann.title}</h3>
+                <p className="text-gray-600 text-sm">{ann.date}</p>
+                <p className="text-gray-700">{ann.content}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Upcoming Events</h2>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4 p-3 bg-blue-50 rounded-lg">
+                <Calendar className="h-6 w-6 text-blue-600" />
+                <div>
+                  <h3 className="font-semibold">Youth Camp</h3>
+                  <p className="text-sm text-gray-600">Dec 15-17, 2025</p>
                 </div>
               </div>
-            </div>
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Upcoming Events</h3>
-              <div className="space-y-4">
-                {events.slice(0, 3).map(event => (
-                  <div key={event.id} className="flex items-center space-x-4 p-4 border rounded-lg">
-                    <img src={event.image} alt={event.title} className="w-16 h-16 object-cover rounded" />
-                    <div>
-                      <h4 className="font-semibold">{event.title}</h4>
-                      <p className="text-sm text-gray-600">{event.date}</p>
-                      <p className="text-sm">{event.description}</p>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-center space-x-4 p-3 bg-green-50 rounded-lg">
+                <BookOpen className="h-6 w-6 text-green-600" />
+                <div>
+                  <h3 className="font-semibold">Bible Study</h3>
+                  <p className="text-sm text-gray-600">Every Tuesday 6:30 PM</p>
+                </div>
               </div>
             </div>
           </div>
-        );
-      case 'events':
-        return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Upcoming Events</h2>
+
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Live Stream</h2>
+            <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+              <Play className="h-16 w-16 text-gray-400" />
+            </div>
+            <p className="text-center mt-4 text-gray-600">Join our live service every Sunday at 9:00 AM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const EventsPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <Calendar className="h-8 w-8 text-blue-600 mr-3" />
+            Church Events
+          </h1>
+
+          {/* Add New Event Form */}
+          <div className="bg-blue-50 p-6 rounded-lg mb-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Event</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Title</label>
+                <input
+                  type="text"
+                  value={newEvent.title}
+                  onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
+                  placeholder="Event Title"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Date</label>
+                <input
+                  type="text"
+                  value={newEvent.date}
+                  onChange={(e) => setNewEvent({...newEvent, date: e.target.value})}
+                  placeholder="Event Date (e.g. Dec 15-17, 2025)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Description</label>
+                <textarea
+                  value={newEvent.description}
+                  onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
+                  placeholder="Event Description"
+                  rows="3"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Photo</label>
+                <div className="flex items-center space-x-4">
+                  {newEvent.image && (
+                    <img src={newEvent.image} alt="Event Preview" className="w-24 h-24 object-cover rounded-lg border" />
+                  )}
+                  <div className="flex items-center space-x-2">
+                    <label className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg cursor-pointer hover:bg-blue-700 transition-colors">
+                      <Camera className="h-5 w-5 mr-2" />
+                      Upload Photo
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-2">
                 <button
-                  onClick={() => setCurrentPage('admin')}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  onClick={handleAddEvent}
+                  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
                 >
-                  Admin Panel
+                  Add Event
                 </button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {events.map(event => (
-                  <div key={event.id} className="border rounded-lg overflow-hidden shadow">
-                    <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-                      <p className="text-gray-600 mb-2">{event.date}</p>
-                      <p className="mb-4">{event.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
-        );
-      case 'announcements':
-        return (
+
+          {/* Events List */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {events.map(event => (
+              <div key={event.id} className="bg-white rounded-xl shadow-md overflow-hidden">
+                <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{event.title}</h3>
+                  <p className="text-gray-600 mb-2">{event.date}</p>
+                  <p className="text-gray-700">{event.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const AnnouncementsPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <Calendar className="h-8 w-8 text-blue-600 mr-3" />
+            Church Announcements
+          </h1>
+
           <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Announcements</h2>
-                <button
-                  onClick={() => setCurrentPage('admin')}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
-                  Admin Panel
-                </button>
+            {announcements.map(ann => (
+              <div key={ann.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-semibold text-gray-800">{ann.title}</h3>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    {ann.date}
+                  </span>
+                </div>
+                <p className="text-gray-700 leading-relaxed">{ann.content}</p>
               </div>
-              <div className="space-y-4">
-                {announcements.map(announcement => (
-                  <div key={announcement.id} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-semibold">{announcement.title}</h3>
-                      <span className="text-sm text-gray-500">{announcement.date}</span>
-                    </div>
-                    <p className="text-gray-700">{announcement.content}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
-        );
-      case 'newsletter':
-        return (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Church Newsletter</h2>
-            <p className="text-gray-600 mb-4">{newsletterDesc}</p>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-semibold mb-2">Download Latest Newsletter</h3>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        </div>
+      </div>
+    </div>
+  );
+
+  const NewsletterPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <Mail className="h-8 w-8 text-blue-600 mr-3" />
+            Church Newsletter
+          </h1>
+
+          <div className="space-y-8">
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">November 2025 Newsletter</h2>
+              <p className="text-gray-700 mb-4">This month's newsletter features our upcoming events, testimonies, and ministry updates.</p>
+              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                 Download PDF
               </button>
             </div>
-          </div>
-        );
-      case 'donations':
-        return (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Make a Donation</h2>
-            <div className="max-w-md">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Donation Amount (R)</label>
-              <input
-                type="number"
-                value={donationAmount}
-                onChange={(e) => setDonationAmount(parseInt(e.target.value))}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                min="1"
-              />
-              <div className="grid grid-cols-2 gap-2 mb-4">
-                {[10, 20, 50, 100, 200, 500].map(amount => (
-                  <button
-                    key={amount}
-                    onClick={() => setDonationAmount(amount)}
-                    className={`p-2 rounded border ${donationAmount === amount ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 border-gray-300'}`}
-                  >
-                    R{amount}
-                  </button>
-                ))}
+
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">Subscribe to Our Newsletter</h2>
+              <p className="text-gray-700 mb-4">Stay updated with our latest news and events.</p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  Subscribe
+                </button>
               </div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-              <input
-                type="text"
-                value={donationName}
-                onChange={(e) => setDonationName(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                placeholder="Your name"
-              />
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-              <input
-                type="email"
-                value={donationEmail}
-                onChange={(e) => setDonationEmail(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                placeholder="your.email@example.com"
-              />
-              <button
-                onClick={handleDonation}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-              >
-                Donate Now
-              </button>
             </div>
           </div>
-        );
-      case 'pastor':
-        return (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Ask a Pastor</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Send a Message</h3>
-                <select
-                  value={selectedPastor}
-                  onChange={(e) => setSelectedPastor(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded mb-4"
-                >
-                  <option value="">Select a Pastor</option>
-                  {pastors.map(pastor => (
-                    <option key={pastor.id} value={pastor.name}>{pastor.name} - {pastor.specialty}</option>
-                  ))}
-                </select>
-                <textarea
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Type your message here..."
-                  className="w-full p-2 border border-gray-300 rounded mb-4"
-                  rows="4"
-                />
-                <label className="flex items-center mb-4">
+        </div>
+      </div>
+    </div>
+  );
+
+  const DonationsPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <DollarSign className="h-8 w-8 text-blue-600 mr-3" />
+            Make a Donation
+          </h1>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Support Our Ministry</h2>
+              <p className="text-gray-700 mb-6">
+                Your generous donations help us continue our mission of spreading the Gospel and serving our community.
+                All donations are processed securely through PayFast.
+              </p>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Donation Amount (R)</label>
+                  <input
+                    type="number"
+                    value={donationAmount}
+                    onChange={(e) => setDonationAmount(Number(e.target.value))}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    value={donationName}
+                    onChange={(e) => setDonationName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={donationEmail}
+                    onChange={(e) => setDonationEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+
+              <button
+                onClick={handleDonation}
+                className="w-full mt-6 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+              >
+                Process Payment via PayFast
+              </button>
+            </div>
+
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Donation Options</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-3 bg-white rounded-lg">
+                  <span>Weekly Offering</span>
+                  <span className="font-semibold">R50</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-white rounded-lg">
+                  <span>Monthly Support</span>
+                  <span className="font-semibold">R200</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-white rounded-lg">
+                  <span>Special Project</span>
+                  <span className="font-semibold">Custom</span>
+                </div>
+              </div>
+
+              <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
+                <h4 className="font-semibold text-gray-800 mb-2">Tax Deductible</h4>
+                <p className="text-sm text-gray-600">All donations are tax deductible. You will receive a receipt for your records.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const PastorPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <MessageCircle className="h-8 w-8 text-blue-600 mr-3" />
+            Ask a Pastor
+          </h1>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Pastors</h2>
+              <div className="space-y-4">
+                {pastors.map(pastor => (
+                  <div key={pastor.id} className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                    <img src={pastor.image} alt={pastor.name} className="w-16 h-16 rounded-full" />
+                    <div>
+                      <h3 className="font-semibold text-lg">{pastor.name}</h3>
+                      <p className="text-gray-600">{pastor.specialty}</p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedPastor(pastor.name)}
+                      className="ml-auto bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Select
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Send a Private Message</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Selected Pastor</label>
+                  <select
+                    value={selectedPastor}
+                    onChange={(e) => setSelectedPastor(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Choose a pastor...</option>
+                    {pastors.map(pastor => (
+                      <option key={pastor.id} value={pastor.name}>{pastor.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                  <textarea
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type your private message here..."
+                    rows="4"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div className="flex items-start">
                   <input
                     type="checkbox"
                     checked={anonymousMode}
                     onChange={(e) => setAnonymousMode(e.target.checked)}
-                    className="mr-2"
+                    className="mt-1 mr-2"
                   />
-                  Send anonymously
-                </label>
+                  <label className="text-sm text-gray-700">
+                    Send anonymously
+                  </label>
+                </div>
+
                 <button
                   onClick={handleSendMessage}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  disabled={!newMessage.trim() || !selectedPastor}
+                  className="w-full bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  Send Private Message
                 </button>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Our Pastors</h3>
-                <div className="space-y-4">
-                  {pastors.map(pastor => (
-                    <div key={pastor.id} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                      <img src={pastor.image} alt={pastor.name} className="w-16 h-16 rounded-full" />
-                      <div>
-                        <h4 className="font-semibold">{pastor.name}</h4>
-                        <p className="text-sm text-gray-600">{pastor.specialty}</p>
-                      </div>
-                    </div>
-                  ))}
+
+                <div className="p-4 bg-blue-50 rounded-lg">
+                  <h4 className="font-semibold text-gray-800 mb-2">Privacy Notice</h4>
+                  <p className="text-sm text-gray-600">
+                    Your message will be sent directly to the selected pastor.
+                    Your privacy is protected and your message will not be shared publicly.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        );
-      case 'pastorRegister':
-        return (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Pastor Registration</h2>
-            <form className="max-w-md">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-              <input
-                type="text"
-                value={registrationName}
-                onChange={(e) => setRegistrationName(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                required
-              />
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-              <input
-                type="email"
-                value={registrationEmail}
-                onChange={(e) => setRegistrationEmail(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                required
-              />
+
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Message History</h2>
+            <div className="space-y-3">
+              {messages.map(msg => (
+                <div key={msg.id} className="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="font-semibold">{msg.anonymous ? 'Anonymous' : msg.pastor}</span>
+                    <span className="text-sm text-gray-500">{msg.timestamp}</span>
+                  </div>
+                  <p className="text-gray-700 mb-2">{msg.message}</p>
+                  <span className="text-xs text-green-600">{msg.status}</span>
+                </div>
+              ))}
+              {messages.length === 0 && (
+                <p className="text-gray-500 text-center py-4">No private messages sent yet.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const PastorRegisterPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <Users className="h-8 w-8 text-blue-600 mr-3" />
+            Pastor Registration
+          </h1>
+
+          <div className="bg-blue-50 p-6 rounded-lg mb-8">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Become a Pastor in Our Ask a Pastor Program</h2>
+            <p className="text-gray-700 mb-4">
+              Join our team of pastors to help answer questions from our church community.
+              This is a great opportunity to serve and connect with our members.
+            </p>
+            <p className="text-gray-700">
+              <strong>Requirements:</strong> Active church member, ordained pastor, and commitment to respond to messages within 24 hours.
+            </p>
+          </div>
+
+          <form onSubmit={async (e) => { e.preventDefault(); if (!registrationTerms) { alert('Please agree to the terms and conditions'); return; } try { alert('Application submitted successfully!'); setRegistrationName(''); setRegistrationEmail(''); setRegistrationPhone(''); setRegistrationDateOfBirth(''); setRegistrationArea(''); setRegistrationEducation(''); setRegistrationReason(''); setRegistrationTerms(false); } catch (error) { console.error('Error submitting application:', error); alert('Failed to submit application. Please try again.'); }}} className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  value={registrationName}
+                  onChange={(e) => setRegistrationName(e.target.value)}
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={registrationEmail}
+                  onChange={(e) => setRegistrationEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
               <input
                 type="tel"
                 value={registrationPhone}
                 onChange={(e) => setRegistrationPhone(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                required
+                placeholder="Enter your phone number"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
               <input
                 type="date"
                 value={registrationDateOfBirth}
                 onChange={(e) => setRegistrationDateOfBirth(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <label className="block text-sm font-medium text-gray-700 mb-2">Area</label>
-              <input
-                type="text"
-                value={registrationArea}
-                onChange={(e) => setRegistrationArea(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                placeholder="City/Town"
-                required
-              />
-              <label className="block text-sm font-medium text-gray-700 mb-2">Highest Education Level</label>
-              <select
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Area of Interest</label>
+              <select value={registrationArea} onChange={(e) => setRegistrationArea(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Select an area...</option>
+                <option value="youth">Youth Ministry</option>
+                <option value="women">Women's Ministry</option>
+                <option value="men">Men's Ministry</option>
+                <option value="children">Children's Ministry</option>
+                <option value="worship">Worship Ministry</option>
+                <option value="outreach">Community Outreach</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Educational Background</label>
+              <textarea
                 value={registrationEducation}
                 onChange={(e) => setRegistrationEducation(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-                required
-              >
-                <option value="">Select Education Level</option>
-                <option value="High School">High School</option>
-                <option value="Diploma">Diploma</option>
-                <option value="Degree">Degree</option>
-                <option value="Postgraduate">Postgraduate</option>
-              </select>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Why do you want to be a pastor?</label>
+                placeholder="Please describe your educational background, theological training, and relevant experience..."
+                rows="4"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              ></textarea>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Why do you want to join our pastoral team?</label>
               <textarea
                 value={registrationReason}
                 onChange={(e) => setRegistrationReason(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
+                placeholder="Share your calling and vision for ministry..."
                 rows="4"
-                required
-              />
-              <label className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  checked={registrationTerms}
-                  onChange={(e) => setRegistrationTerms(e.target.checked)}
-                  className="mr-2"
-                  required
-                />
-                I agree to the terms and conditions
-              </label>
-              <button
-                type="button"
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-              >
-                Submit Application
-              </button>
-            </form>
-          </div>
-        );
-      case 'live':
-        return (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Live Stream</h2>
-            <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-              <iframe
-                src={currentVideo}
-                title="Live Stream"
-                className="w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              ></textarea>
             </div>
-            <p className="text-sm text-gray-600 mt-2">Live service broadcasts will appear here.</p>
-            <div className="mt-4 space-y-2">
+
+            <div className="flex items-center space-x-2">
               <input
-                type="text"
-                value={currentVideo}
-                onChange={(e) => setCurrentVideo(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded"
-                placeholder="Enter YouTube embed URL"
+                type="checkbox"
+                id="terms"
+                checked={registrationTerms}
+                onChange={(e) => setRegistrationTerms(e.target.checked)}
+                className="rounded"
               />
-              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                Update Video
-              </button>
+              <label htmlFor="terms" className="text-sm text-gray-700">
+                I agree to the church's terms and conditions for pastoral candidates
+              </label>
             </div>
-          </div>
-        );
-      case 'admin':
-        return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Admin Panel</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Manage Announcements</h3>
-                  <div className="space-y-2">
-                    {announcements.map(announcement => (
-                      <div key={announcement.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                        <span className="text-sm">{announcement.title}</span>
-                        <div className="space-x-2">
-                          <button
-                            onClick={() => setEditingAnnouncement(announcement)}
-                            className="text-blue-600 text-sm"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => setAnnouncements(announcements.filter(a => a.id !== announcement.id))}
-                            className="text-red-600 text-sm"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+
+            <button
+              type="submit"
+              className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+            >
+              Submit Application
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+
+  const LiveStreamPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <Video className="h-8 w-8 text-blue-600 mr-3" />
+            Live Stream
+          </h1>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4">
+                <iframe
+                  src={currentVideo}
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <h3 className="font-semibold text-lg mb-2">Current Service</h3>
+                <p className="text-gray-700">Join us live for our Sunday morning service with Pastor Kater.</p>
+                <div className="flex items-center mt-2 text-green-600">
+                  <div className="w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                  <span>Live Now</span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Add New Event</h3>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                  <input
-                    type="text"
-                    value={newEvent.title}
-                    onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
-                    className="w-full p-2 border border-gray-300 rounded mb-4"
-                  />
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                  <input
-                    type="text"
-                    value={newEvent.date}
-                    onChange={(e) => setNewEvent({...newEvent, date: e.target.value})}
-                    className="w-full p-2 border border-gray-300 rounded mb-4"
-                  />
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                  <textarea
-                    value={newEvent.description}
-                    onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
-                    className="w-full p-2 border border-gray-300 rounded mb-4"
-                    rows="3"
-                  />
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
-                  <input
-                    type="file"
-                    onChange={handleImageUpload}
-                    className="w-full p-2 border border-gray-300 rounded mb-4"
-                    accept="image/*"
-                  />
-                  <button
-                    onClick={handleAddEvent}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                  >
-                    Add Event
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Upcoming Services</h2>
+              <div className="space-y-4">
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-semibold text-lg">Sunday Morning Service</h3>
+                  <p className="text-gray-600">9:00 AM - 11:00 AM</p>
+                  <p className="text-gray-700 mt-2">Worship, Prayer, and Word</p>
+                </div>
+
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-semibold text-lg">Sunday Evening Service</h3>
+                  <p className="text-gray-600">6:00 PM - 8:00 PM</p>
+                  <p className="text-gray-700 mt-2">Fellowship and Testimonies</p>
+                </div>
+
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-semibold text-lg">Wednesday Night Service</h3>
+                  <p className="text-gray-600">7:00 PM - 8:30 PM</p>
+                  <p className="text-gray-700 mt-2">Bible Study and Prayer</p>
+                </div>
+              </div>
+
+              <div className="mt-8 bg-blue-50 p-6 rounded-lg">
+                <h3 className="font-semibold text-lg mb-4">Watch Past Services</h3>
+                <div className="space-y-3">
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Sunday Service - November 9, 2025
+                  </button>
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Youth Night - November 12, 2025
+                  </button>
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Women's Ministry - November 5, 2025
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        );
-      default:
-        return <div>Page not found</div>;
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPage = () => {
+    switch(currentPage) {
+      case 'home': return <HomePage />;
+      case 'events': return <EventsPage />;
+      case 'announcements': return <AnnouncementsPage />;
+      case 'newsletter': return <NewsletterPage />;
+      case 'donations': return <DonationsPage />;
+      case 'pastor': return <PastorPage />;
+      case 'pastorRegister': return <PastorRegisterPage />;
+      case 'live': return <LiveStreamPage />;
+      default: return <HomePage />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <main className="container mx-auto px-4 py-8">
-        {renderContent()}
-      </main>
+      {renderPage()}
+
+      {/* Footer */}
+      <footer className="bg-blue-900 text-white py-8 mt-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">PHC</h3>
+              <p className="text-blue-200">Where faith meets community and God's love transforms lives.</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
+              <p className="text-blue-200">123 Faith Avenue</p>
+              <p className="text-blue-200">Holiness City, HC 1234</p>
+              <p className="text-blue-200">(011) 234-5678</p>
+              <p className="text-blue-200">info@phc.org.za</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Service Times</h3>
+              <p className="text-blue-200">Sunday: 10:00 AM</p>
+              <p className="text-blue-200">Wednesday: 7:00 PM</p>
+              <p className="text-blue-200">Prayer Meeting: Friday 6:00 PM</p>
+            </div>
+          </div>
+          <div className="border-t border-blue-700 mt-8 pt-8 text-center text-blue-200">
+            <p>&copy; 2025 PHC. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
