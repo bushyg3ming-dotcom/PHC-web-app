@@ -6,6 +6,57 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Admin state
+  const [newAnnouncement, setNewAnnouncement] = useState({ title: '', date: '', content: '' });
+  const [newsletterFile, setNewsletterFile] = useState(null);
+  const [newsletterFileName, setNewsletterFileName] = useState('November 2025 Newsletter');
+  const [currentVideoUrl, setCurrentVideoUrl] = useState(localStorage.getItem('currentVideoUrl') || 'https://www.youtube.com/embed/dQw4w9WgXcQ');
+
+  // Handler functions
+  const handleAddAnnouncement = async () => {
+    if (newAnnouncement.title && newAnnouncement.date && newAnnouncement.content) {
+      try {
+        await fetch(`${API_BASE}/announcements`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newAnnouncement),
+        });
+        alert('Announcement added successfully!');
+        setNewAnnouncement({ title: '', date: '', content: '' });
+        fetchAnnouncements(); // Refresh the list
+      } catch (error) {
+        console.error('Error adding announcement:', error);
+        alert('Failed to add announcement. Please try again.');
+      }
+    }
+  };
+
+  const handleNewsletterUpload = async () => {
+    if (newsletterFile && newsletterFileName) {
+      // For demo purposes, just update the display name
+      // In a real app, you'd upload the file to the server
+      setNewsletterFileName(newsletterFileName);
+      alert('Newsletter uploaded successfully!');
+      setNewsletterFile(null);
+    }
+  };
+
+  const handleDeleteAnnouncement = async (id) => {
+    if (window.confirm('Are you sure you want to delete this announcement?')) {
+      try {
+        await fetch(`${API_BASE}/announcements/${id}`, {
+          method: 'DELETE',
+        });
+        alert('Announcement deleted!');
+        fetchAnnouncements();
+      } catch (error) {
+        console.error('Error deleting announcement:', error);
+        alert('Failed to delete announcement.');
+      }
+    }
+  };
 
   // API base URL
   const API_BASE = 'http://localhost:3001/api';
@@ -15,6 +66,11 @@ function App() {
     fetchAnnouncements();
     fetchEvents();
   }, []);
+
+  // Persist currentVideoUrl to localStorage
+  useEffect(() => {
+    localStorage.setItem('currentVideoUrl', currentVideoUrl);
+  }, [currentVideoUrl]);
 
   const fetchAnnouncements = async () => {
     try {
@@ -45,7 +101,6 @@ function App() {
   const [newMessage, setNewMessage] = useState('');
   const [selectedPastor, setSelectedPastor] = useState('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [currentVideo, setCurrentVideo] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
   const [events, setEvents] = useState([
     { id: 1, title: 'Youth Camp', date: 'Dec 15-17, 2025', description: 'Annual youth camp with worship, games, and fellowship.', image: 'https://placehold.co/600x400/4f46e5/white?text=Youth+Camp' },
     { id: 2, title: 'Women\'s Retreat', date: 'Jan 10-12, 2026', description: 'Annual women\'s retreat with workshops and prayer sessions.', image: 'https://placehold.co/600x400/ec4899/white?text=Women%27s+Retreat' }
@@ -175,7 +230,8 @@ function App() {
               { id: 'donations', label: 'Donations', icon: '💰' },
               { id: 'pastor', label: 'Ask a Pastor', icon: '💬' },
               { id: 'pastorRegister', label: 'Pastor Register', icon: '👥' },
-              { id: 'live', label: 'Live Stream', icon: '📺' }
+              { id: 'live', label: 'Live Stream', icon: '📺' },
+              { id: 'admin', label: 'Admin', icon: '⚙️' }
             ].map(item => (
               <button
                 key={item.id}
@@ -210,7 +266,8 @@ function App() {
               { id: 'donations', label: 'Donations', icon: '💰' },
               { id: 'pastor', label: 'Ask a Pastor', icon: '💬' },
               { id: 'pastorRegister', label: 'Pastor Register', icon: '👥' },
-              { id: 'live', label: 'Live Stream', icon: '📺' }
+              { id: 'live', label: 'Live Stream', icon: '📺' },
+              { id: 'admin', label: 'Admin', icon: '⚙️' }
             ].map(item => (
               <button
                 key={item.id}
@@ -265,13 +322,25 @@ function App() {
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Recent Announcements</h2>
           <div className="space-y-4">
-            {announcements.slice(0, 3).map(ann => (
-              <div key={ann.id} className="border-l-4 border-blue-500 pl-4 py-2">
-                <h3 className="font-semibold text-lg">{ann.title}</h3>
-                <p className="text-gray-600 text-sm">{ann.date}</p>
-                <p className="text-gray-700">{ann.content}</p>
+            {loading ? (
+              <div className="text-center text-gray-500 py-8">
+                <div className="text-4xl mb-2">⏳</div>
+                <p>Loading announcements...</p>
               </div>
-            ))}
+            ) : announcements.length === 0 ? (
+              <div className="text-center text-gray-500 py-8">
+                <div className="text-4xl mb-2">📢</div>
+                <p>No announcements at this time.</p>
+              </div>
+            ) : (
+              announcements.slice(0, 3).map(ann => (
+                <div key={ann.id} className="border-l-4 border-blue-500 pl-4 py-2">
+                  <h3 className="font-semibold text-lg">{ann.title}</h3>
+                  <p className="text-gray-600 text-sm">{ann.date}</p>
+                  <p className="text-gray-700">{ann.content}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -415,17 +484,30 @@ function App() {
           </h1>
 
           <div className="space-y-6">
-            {announcements.map(ann => (
-              <div key={ann.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-xl font-semibold text-gray-800">{ann.title}</h3>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                    {ann.date}
-                  </span>
-                </div>
-                <p className="text-gray-700 leading-relaxed">{ann.content}</p>
+            {loading ? (
+              <div className="text-center text-gray-500 py-16">
+                <div className="text-6xl mb-4">⏳</div>
+                <p className="text-xl">Loading announcements...</p>
               </div>
-            ))}
+            ) : announcements.length === 0 ? (
+              <div className="text-center text-gray-500 py-16">
+                <div className="text-6xl mb-4">📢</div>
+                <p className="text-xl">No announcements available at this time.</p>
+                <p className="mt-2">Check back later for updates from our church.</p>
+              </div>
+            ) : (
+              announcements.map(ann => (
+                <div key={ann.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-xl font-semibold text-gray-800">{ann.title}</h3>
+                    <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                      {ann.date}
+                    </span>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">{ann.content}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -483,7 +565,7 @@ function App() {
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Latest Newsletter</h3>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">November 2025 Newsletter</p>
+                  <p className="font-medium">{newsletterFileName}</p>
                   <p className="text-sm text-gray-600">Weekly updates and announcements</p>
                 </div>
                 <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
@@ -876,7 +958,7 @@ function App() {
             <div className="bg-gray-900 rounded-lg overflow-hidden">
               <div className="aspect-video">
                 <iframe
-                  src={currentVideo}
+                  src={currentVideoUrl}
                   title="Live Stream"
                   className="w-full h-full"
                   frameBorder="0"
@@ -944,6 +1026,166 @@ function App() {
     </div>
   );
 
+  const AdminPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <span className="mr-3">⚙️</span>
+            Church Administration
+          </h1>
+
+          <div className="space-y-8">
+            {/* Announcements Management */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">📢 Manage Announcements</h2>
+              <div className="grid md:grid-cols-1 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Announcement Title</label>
+                  <input
+                    type="text"
+                    value={newAnnouncement.title}
+                    onChange={(e) => setNewAnnouncement({...newAnnouncement, title: e.target.value})}
+                    placeholder="Enter announcement title"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                  <input
+                    type="text"
+                    value={newAnnouncement.date}
+                    onChange={(e) => setNewAnnouncement({...newAnnouncement, date: e.target.value})}
+                    placeholder="e.g. Nov 20, 2025"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                  <textarea
+                    value={newAnnouncement.content}
+                    onChange={(e) => setNewAnnouncement({...newAnnouncement, content: e.target.value})}
+                    placeholder="Enter announcement content"
+                    rows="4"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <button
+                  onClick={handleAddAnnouncement}
+                  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                >
+                  Add Announcement
+                </button>
+              </div>
+
+              {/* Existing Announcements */}
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Existing Announcements</h3>
+                <div className="space-y-4">
+                  {announcements.map(ann => (
+                    <div key={ann.id} className="border border-gray-200 rounded-lg p-4 flex justify-between items-start">
+                      <div>
+                        <h4 className="font-semibold text-gray-800">{ann.title}</h4>
+                        <p className="text-sm text-gray-600">{ann.date}</p>
+                        <p className="text-gray-700 text-sm">{ann.content}</p>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteAnnouncement(ann.id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter Management */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">📧 Newsletter Management</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Upload Newsletter File</label>
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={(e) => setNewsletterFile(e.target.files[0])}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Newsletter Name</label>
+                  <input
+                    type="text"
+                    value={newsletterFileName}
+                    onChange={(e) => setNewsletterFileName(e.target.value)}
+                    placeholder="e.g. December 2025 Newsletter"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <button
+                    onClick={handleNewsletterUpload}
+                    className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                  >
+                    Upload Newsletter
+                  </button>
+                </div>
+                <p className="text-sm text-gray-600 md:col-span-2">
+                  Current Newsletter: <strong>{newsletterFileName}</strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Live Stream Management */}
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">📺 Live Stream Management</h2>
+              <div className="grid md:grid-cols-1 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">YouTube Embed URL</label>
+                  <input
+                    type="url"
+                    value={currentVideoUrl}
+                    onChange={(e) => setCurrentVideoUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">Paste the embed URL from YouTube (format: https://www.youtube.com/embed/...)</p>
+                  <button
+                    onClick={() => setCurrentVideoUrl('')}
+                    className="mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm"
+                  >
+                    Reset to Default
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Statistics */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">📊 Quick Stats</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-600">{announcements.length}</div>
+                  <div className="text-sm text-gray-600">Announcements</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600">{events.length}</div>
+                  <div className="text-sm text-gray-600">Events</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-purple-600">1</div>
+                  <div className="text-sm text-gray-600">Live Stream</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderPage = () => {
     switch(currentPage) {
       case 'home': return <HomePage />;
@@ -954,6 +1196,7 @@ function App() {
       case 'pastor': return <PastorPage />;
       case 'pastorRegister': return <PastorRegisterPage />;
       case 'live': return <LiveStreamPage />;
+      case 'admin': return <AdminPage />;
       default: return <HomePage />;
     }
   };
