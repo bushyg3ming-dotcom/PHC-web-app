@@ -894,7 +894,6 @@ const App = () => {
 
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-6">Upcoming Services</h2>
-
               <div className="space-y-4">
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <h3 className="font-semibold text-lg">Sunday Morning Service</h3>
