@@ -223,7 +223,7 @@ const App = () => {
             <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
               <Play className="h-16 w-16 text-gray-400" />
             </div>
-            <p className="text-center mt-4 text-gray-600">Join our live service every Sunday at 9:00 AM</p>
+            <p className="text-center mt-4 text-gray-600">Join our live service every Sunday at 10:00 AM</p>
           </div>
         </div>
       </div>
