@@ -892,9 +892,85 @@ const App = () => {
 
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-6">Upcoming Services</h2>
+
               <div className="space-y-4">
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <h3 className="font-semibold text-lg">Sunday Morning Service</h3>
                   <p className="text-gray-600">9:00 AM - 11:00 AM</p>
                   <p className="text-gray-700 mt-2">Worship, Prayer, and Word</p>
                 </div>
+
+              </div>
+
+              <div className="mt-8 bg-blue-50 p-6 rounded-lg">
+                <h3 className="font-semibold text-lg mb-4">Watch Past Services</h3>
+                <div className="space-y-3">
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Sunday Service - November 9, 2025
+                  </button>
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Youth Night - November 12, 2025
+                  </button>
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Women's Ministry - November 5, 2025
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPage = () => {
+    switch(currentPage) {
+      case 'home': return <HomePage />;
+      case 'events': return <EventsPage />;
+      case 'announcements': return <AnnouncementsPage />;
+      case 'newsletter': return <NewsletterPage />;
+      case 'donations': return <DonationsPage />;
+      case 'pastor': return <PastorPage />;
+      case 'pastorRegister': return <PastorRegisterPage />;
+      case 'live': return <LiveStreamPage />;
+      default: return <HomePage />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      {renderPage()}
+
+      {/* Footer */}
+      <footer className="bg-blue-900 text-white py-8 mt-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">PHC</h3>
+              <p className="text-blue-200">Where faith meets community and God's love transforms lives.</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
+              <p className="text-blue-200">5 Frederick Street, Davidsonville</p>
+              <p className="text-blue-200">Roodepoort, 1724</p>
+              <p className="text-blue-200">(011) 234-5678</p>
+              <p className="text-blue-200">info@phc.org.za</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Service Times</h3>
+              <p className="text-blue-200">Sunday: 10:00 AM</p>
+              <p className="text-blue-200">Wednesday: 7:00 PM</p>
+              <p className="text-blue-200">Prayer Meeting: Friday 6:00 PM</p>
+            </div>
+          </div>
+          <div className="border-t border-blue-700 mt-8 pt-8 text-center text-blue-200">
+            <p>&copy; 2025 PHC. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
