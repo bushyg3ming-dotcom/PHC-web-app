@@ -216,8 +216,7 @@ function App() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
             <span className="text-2xl font-bold text-yellow-400">❤️</span>
-            <span className="text-xl font-bold hidden sm:block">Pentecostal Holiness Church</span>
-            <span className="text-xl font-bold sm:hidden">PHC</span>
+            <span className="text-xl font-bold
           </div>
 
           {/* Desktop Navigation */}
