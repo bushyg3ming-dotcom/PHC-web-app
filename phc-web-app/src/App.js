@@ -96,6 +96,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
+              { id: 'admin', label: 'Admin', icon: Video },
               { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
@@ -131,6 +132,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
+              { id: 'admin', label: 'Admin', icon: Video },
               { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
@@ -718,6 +720,148 @@ const App = () => {
     </div>
   );
 
+  const AdminPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <Video className="h-8 w-8 text-blue-600 mr-3" />
+            Church Administration
+          </h1>
+
+          <div className="space-y-8">
+            {/* Announcements Management */}
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">📢 Manage Announcements</h2>
+              <div className="grid md:grid-cols-1 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Announcement Title</label>
+                  <input
+                    type="text"
+                    placeholder="Enter announcement title"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Nov 20, 2025"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                  <textarea
+                    placeholder="Enter announcement content"
+                    rows="4"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+                <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold">
+                  Add Announcement
+                </button>
+              </div>
+
+              {/* Existing Announcements */}
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Existing Announcements</h3>
+                <div className="space-y-4">
+                  {announcements.map(ann => (
+                    <div key={ann.id} className="border border-gray-200 rounded-lg p-4 flex justify-between items-start">
+                      <div>
+                        <h4 className="font-semibold text-gray-800">{ann.title}</h4>
+                        <p className="text-sm text-gray-600">{ann.date}</p>
+                        <p className="text-gray-700 text-sm">{ann.content}</p>
+                      </div>
+                      <button className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter Management */}
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">📧 Newsletter Management</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Upload Newsletter File</label>
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx,.txt"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Newsletter Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. December 2025 Newsletter"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold">
+                    Upload Newsletter
+                  </button>
+                </div>
+                <p className="text-sm text-gray-600 md:col-span-2">
+                  Current Newsletter: <strong>November 2025 Newsletter</strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Live Stream Management */}
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">📺 Live Stream Management</h2>
+              <div className="grid md:grid-cols-1 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">YouTube Embed URL</label>
+                  <input
+                    type="url"
+                    value={currentVideo}
+                    onChange={(e) => setCurrentVideo(e.target.value)}
+                    placeholder="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">Paste the embed URL from YouTube (format: https://www.youtube.com/embed/...)</p>
+                  <button
+                    onClick={() => setCurrentVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')}
+                    className="mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm"
+                  >
+                    Reset to Default
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Statistics */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">📊 Quick Stats</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-600">{announcements.length}</div>
+                  <div className="text-sm text-gray-600">Announcements</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600">{events.length}</div>
+                  <div className="text-sm text-gray-600">Events</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-purple-600">1</div>
+                  <div className="text-sm text-gray-600">Live Stream</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const LiveStreamPage = () => (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
       <div className="max-w-6xl mx-auto px-4">
@@ -736,6 +880,7 @@ const App = () => {
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  title="Church Live Stream"
                 ></iframe>
               </div>
 
@@ -801,6 +946,7 @@ const App = () => {
       case 'donations': return <DonationsPage />;
       case 'pastor': return <PastorPage />;
       case 'pastorRegister': return <PastorRegisterPage />;
+      case 'admin': return <AdminPage />;
       case 'live': return <LiveStreamPage />;
       default: return <HomePage />;
     }
