@@ -26,7 +26,15 @@ const App = () => {
   ]);
   const [newEvent, setNewEvent] = useState({ title: '', date: '', description: '', image: null });
   const [anonymousMode, setAnonymousMode] = useState(false);
-  
+  const [registrationTerms, setRegistrationTerms] = useState(false);
+  const [registrationName, setRegistrationName] = useState('');
+  const [registrationEmail, setRegistrationEmail] = useState('');
+  const [registrationPhone, setRegistrationPhone] = useState('');
+  const [registrationDateOfBirth, setRegistrationDateOfBirth] = useState('');
+  const [registrationArea, setRegistrationArea] = useState('');
+  const [registrationEducation, setRegistrationEducation] = useState('');
+  const [registrationReason, setRegistrationReason] = useState('');
+
   const pastors = [
     { id: 1, name: 'Pastor Graham Kater', specialty: 'Youth Ministry', image: 'https://placehold.co/150x150/4f46e5/white?text=PW' },
     { id: 2, name: 'Pastor Sarah Johnson', specialty: 'Women\'s Ministry', image: 'https://placehold.co/150x150/ec4899/white?text=SJ' },
@@ -614,108 +622,107 @@ const App = () => {
             </p>
           </div>
           
-          <form className="space-y-6">
+          <form onSubmit={async (e) => { e.preventDefault(); if (!registrationTerms) { alert('Please agree to the terms and conditions'); return; } try { alert('Application submitted successfully!'); setRegistrationName(''); setRegistrationEmail(''); setRegistrationPhone(''); setRegistrationDateOfBirth(''); setRegistrationArea(''); setRegistrationEducation(''); setRegistrationReason(''); setRegistrationTerms(false); } catch (error) { console.error('Error submitting application:', error); alert('Failed to submit application. Please try again.'); }}} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
+                  value={registrationName}
+                  onChange={(e) => setRegistrationName(e.target.value)}
                   placeholder="Enter your full name"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
+                  value={registrationEmail}
+                  onChange={(e) => setRegistrationEmail(e.target.value)}
                   placeholder="Enter your email"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
             </div>
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-              <input 
-                type="tel" 
+              <input
+                type="tel"
+                value={registrationPhone}
+                onChange={(e) => setRegistrationPhone(e.target.value)}
                 placeholder="Enter your phone number"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Specialty Area</label>
-              <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Select your specialty</option>
-                <option value="Youth Ministry">Youth Ministry</option>
-                <option value="Women's Ministry">Women's Ministry</option>
-                <option value="Men's Ministry">Men's Ministry</option>
-                <option value="Children's Ministry">Children's Ministry</option>
-                <option value="General Ministry">General Ministry</option>
-                <option value="Counseling">Counseling</option>
-                <option value="Prayer Ministry">Prayer Ministry</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
-              <input 
-                type="number" 
-                min="1"
-                max="50"
-                placeholder="Enter years of experience"
+              <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+              <input
+                type="date"
+                value={registrationDateOfBirth}
+                onChange={(e) => setRegistrationDateOfBirth(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
-              <div className="flex items-center space-x-6">
-                <div className="flex-shrink-0">
-                  <img src="https://placehold.co/150x150/4f46e5/white?text=+" alt="Profile Preview" className="w-16 h-16 rounded-full" />
-                </div>
-                <div>
-                  <div className="file-input-wrapper">
-                    <label className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg cursor-pointer hover:bg-blue-700 transition-colors">
-                      <Camera className="h-5 w-5 mr-2" />
-                      Upload Photo
-                      <input 
-                        type="file" 
-                        accept="image/*"
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                  <p className="text-sm text-gray-500 mt-1">JPG, PNG or GIF (Max 5MB)</p>
-                </div>
-              </div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Area of Interest</label>
+              <select value={registrationArea} onChange={(e) => setRegistrationArea(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Select an area...</option>
+                <option value="youth">Youth Ministry</option>
+                <option value="women">Women's Ministry</option>
+                <option value="men">Men's Ministry</option>
+                <option value="children">Children's Ministry</option>
+                <option value="worship">Worship Ministry</option>
+                <option value="outreach">Community Outreach</option>
+              </select>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Biography</label>
-              <textarea 
+              <label className="block text-sm font-medium text-gray-700 mb-2">Educational Background</label>
+              <textarea
+                value={registrationEducation}
+                onChange={(e) => setRegistrationEducation(e.target.value)}
+                placeholder="Please describe your educational background, theological training, and relevant experience..."
                 rows="4"
-                placeholder="Tell us about your ministry experience and calling"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               ></textarea>
             </div>
-            
-            <div className="flex items-start">
-              <input 
-                type="checkbox" 
-                className="mt-1 mr-2"
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Why do you want to join our pastoral team?</label>
+              <textarea
+                value={registrationReason}
+                onChange={(e) => setRegistrationReason(e.target.value)}
+                placeholder="Share your calling and vision for ministry..."
+                rows="4"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              ></textarea>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="terms"
+                checked={registrationTerms}
+                onChange={(e) => setRegistrationTerms(e.target.checked)}
+                className="rounded"
               />
-              <label className="text-sm text-gray-700">
-                I agree to respond to messages within 24 hours and maintain the confidentiality of all communications
+              <label htmlFor="terms" className="text-sm text-gray-700">
+                I agree to the church's terms and conditions for pastoral candidates
               </label>
             </div>
-            
-            <button 
+
+            <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+              className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
             >
-              Register as Pastor
+              Submit Application
             </button>
           </form>
         </div>
