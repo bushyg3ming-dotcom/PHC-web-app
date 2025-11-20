@@ -105,7 +105,8 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
-              { id: 'live', label: 'Live Stream', icon: Video }
+              { id: 'live', label: 'Live Stream', icon: Video },
+              { id: 'admin', label: 'Admin', icon: Settings }
             ].map(item => (
               <button
                 key={item.id}
@@ -744,6 +745,64 @@ const App = () => {
               Submit Application
             </button>
           </form>
+        </div>
+      </div>
+    </div>
+  );
+
+  const AdminPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <Settings className="h-8 w-8 text-blue-600 mr-3" />
+            Admin Dashboard
+          </h1>
+
+          <div className="space-y-8">
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Live Stream Settings</h2>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">YouTube Embed URL</label>
+                <input
+                  type="text"
+                  value={currentVideo}
+                  onChange={(e) => setCurrentVideo(e.target.value)}
+                  placeholder="https://www.youtube.com/embed/..."
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Newsletter Settings</h2>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Newsletter Description</label>
+                <textarea
+                  value={newsletterDesc}
+                  onChange={(e) => setNewsletterDesc(e.target.value)}
+                  placeholder="Enter newsletter description..."
+                  rows="4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Announcements Management</h2>
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Current Announcements</h3>
+                {announcements.map(ann => (
+                  <div key={ann.id} className="border border-gray-200 rounded-lg p-4">
+                    <h4 className="font-semibold">{ann.title}</h4>
+                    <p className="text-gray-600">{ann.date}</p>
+                    <p>{ann.content}</p>
+                  </div>
+                ))}
+                <p className="text-gray-600">To edit announcements, modify the state directly in the code or integrate a backend.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
