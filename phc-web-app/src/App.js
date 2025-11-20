@@ -58,7 +58,7 @@ function App() {
     }
   };
 
-  // API base URL
+  // API base URL - fallback to mock data if backend not available
   const API_BASE = 'http://localhost:3001/api';
 
   // Fetch announcements on component mount
