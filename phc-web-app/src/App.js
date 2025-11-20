@@ -101,6 +101,7 @@ function App() {
   const [newMessage, setNewMessage] = useState('');
   const [selectedPastor, setSelectedPastor] = useState('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
+  const newsletterEmailRef = useRef();
   const [events, setEvents] = useState([
     { id: 1, title: 'Youth Camp', date: 'Dec 15-17, 2025', description: 'Annual youth camp with worship, games, and fellowship.', image: 'https://placehold.co/600x400/4f46e5/white?text=Youth+Camp' },
     { id: 2, title: 'Women\'s Retreat', date: 'Jan 10-12, 2026', description: 'Annual women\'s retreat with workshops and prayer sessions.', image: 'https://placehold.co/600x400/ec4899/white?text=Women%27s+Retreat' }
@@ -216,7 +217,7 @@ function App() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
             <span className="text-2xl font-bold text-yellow-400">❤️</span>
-            <span className="text-xl font-bold
+            <span className="text-xl font-bold">PHC</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -529,24 +530,26 @@ function App() {
               <div className="flex space-x-4">
                 <input
                   type="email"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  ref={newsletterEmailRef}
                   placeholder="Enter your email address"
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   onClick={async () => {
-                    if (newsletterEmail.trim()) {
+                    const emailValue = newsletterEmailRef.current?.value || '';
+                    if (emailValue.trim()) {
                       try {
                         await fetch(`${API_BASE}/newsletter`, {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/json',
                           },
-                          body: JSON.stringify({ email: newsletterEmail }),
+                          body: JSON.stringify({ email: emailValue }),
                         });
                         alert('Successfully subscribed to newsletter!');
-                        setNewsletterEmail('');
+                        if (newsletterEmailRef.current) {
+                          newsletterEmailRef.current.value = '';
+                        }
                       } catch (error) {
                         console.error('Error subscribing:', error);
                         alert('Failed to subscribe. Please try again.');
