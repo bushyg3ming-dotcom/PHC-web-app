@@ -95,6 +95,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
+              { id: 'admin', label: 'Admin', icon: BookOpen },
               { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
@@ -130,6 +131,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
+              { id: 'admin', label: 'Admin', icon: BookOpen },
               { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
@@ -824,6 +826,65 @@ const App = () => {
     </div>
   );
 
+  const AdminPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <BookOpen className="h-8 w-8 text-blue-600 mr-3" />
+            Admin Dashboard
+          </h1>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="bg-blue-50 p-6 rounded-lg">
+              <h3 className="font-semibold text-lg mb-2">Events</h3>
+              <p className="text-gray-600">Total events: {events.length}</p>
+            </div>
+
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="font-semibold text-lg mb-2">Messages</h3>
+              <p className="text-gray-600">Private messages: {messages.length}</p>
+            </div>
+
+            <div className="bg-purple-50 p-6 rounded-lg">
+              <h3 className="font-semibold text-lg mb-2">Announcements</h3>
+              <p className="text-gray-600">Active announcements: {announcements.length}</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Recent Events</h2>
+              <div className="space-y-4">
+                {events.map(event => (
+                  <div key={event.id} className="border border-gray-200 rounded-lg p-4">
+                    <h4 className="font-semibold">{event.title}</h4>
+                    <p className="text-gray-600">{event.date}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Recent Messages</h2>
+              <div className="space-y-4">
+                {messages.slice(-5).map(msg => (
+                  <div key={msg.id} className="border border-gray-200 rounded-lg p-4">
+                    <p className="font-semibold">To: {msg.pastor}</p>
+                    <p className="text-gray-700">{msg.message.substring(0, 50)}...</p>
+                  </div>
+                ))}
+                {messages.length === 0 && (
+                  <p className="text-gray-500">No messages yet</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderPage = () => {
     switch(currentPage) {
       case 'home': return <HomePage />;
@@ -833,6 +894,7 @@ const App = () => {
       case 'donations': return <DonationsPage />;
       case 'pastor': return <PastorPage />;
       case 'pastorRegister': return <PastorRegisterPage />;
+      case 'admin': return <AdminPage />;
       case 'live': return <LiveStreamPage />;
       default: return <HomePage />;
     }
