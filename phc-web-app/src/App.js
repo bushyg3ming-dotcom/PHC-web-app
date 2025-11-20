@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Mail, CreditCard, MessageCircle, Video, Heart, DollarSign, Send, Play, Phone, MapPin, Clock, Users, BookOpen, X, Menu, Camera, Plus, Cross } from 'lucide-react';
+import { Calendar, Mail, CreditCard, MessageCircle, Video, Heart, DollarSign, Send, Play, Phone, MapPin, Clock, Users, BookOpen, X, Menu, Camera, Plus, Cross, Church } from 'lucide-react';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -101,11 +101,10 @@ const App = () => {
               <button
                 key={item.id}
                 onClick={() => setCurrentPage(item.id)}
-                className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-colors ${
+                className={`flex items-center px-3 py-2 rounded-lg transition-colors ${
                   currentPage === item.id ? 'bg-blue-700' : 'hover:bg-blue-800'
                 }`}
               >
-                <item.icon className="h-4 w-4" />
                 <span>{item.label}</span>
               </button>
             ))}
@@ -158,8 +157,8 @@ const App = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 text-center">
-          <Heart className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">PHC</h1>
+          <Church className="h-16 w-16 text-red-500 mx-auto mb-4" />
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Pentecostal Holiness Church</h1>
           <p className="text-xl text-gray-600 mb-6">Where Faith Meets Community</p>
           <div className="grid md:grid-cols-3 gap-6 mt-8">
             <div className="bg-blue-50 p-6 rounded-lg">
@@ -178,7 +177,7 @@ const App = () => {
               <Phone className="h-8 w-8 text-purple-600 mx-auto mb-2" />
               <h3 className="font-semibold text-lg">Contact</h3>
               <p>(011) 234-5678</p>
-              <p>info@phc.org.za</p>
+              <p>pentecostalholychurch@gmail.com</p>
             </div>
           </div>
         </div>
