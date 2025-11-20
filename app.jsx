@@ -85,7 +85,7 @@ const App = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
             <Heart className="h-8 w-8 text-yellow-400" />
-            <span className="text-xl font-bold hidden sm:block">Pentecostal Holiness Church</span>
+            <span className="text-xl font-bold hidden sm:block">PHC</span>
             <span className="text-xl font-bold sm:hidden">PHC</span>
           </div>
           
