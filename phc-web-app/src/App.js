@@ -171,8 +171,8 @@ const App = () => {
         return (
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome to PHC</h2>
-              <p className="text-gray-600 mb-4">Port Hills Church - A place of worship, fellowship, and community.</p>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">Pentecostal Holiness Church</h2>
+              <p className="text-gray-600 mb-4">Where Faith Meets Community</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <Heart className="h-12 w-12 text-blue-600 mx-auto mb-2" />
