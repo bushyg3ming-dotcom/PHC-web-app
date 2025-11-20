@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Mail, CreditCard, MessageCircle, Video, Heart, DollarSign, Send, Play, Phone, MapPin, Clock, Users, BookOpen, X, Menu, Camera, Plus } from 'lucide-react';
+import { Calendar, Mail, CreditCard, MessageCircle, Video, Heart, DollarSign, Send, Play, Phone, MapPin, Clock, Users, BookOpen, X, Menu, Camera, Plus, Settings } from 'lucide-react';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -31,6 +31,8 @@ const App = () => {
   const [registrationArea, setRegistrationArea] = useState('');
   const [registrationEducation, setRegistrationEducation] = useState('');
   const [registrationReason, setRegistrationReason] = useState('');
+  const [editingAnnouncement, setEditingAnnouncement] = useState(null);
+  const [newsletterDesc, setNewsletterDesc] = useState('This month\'s newsletter features our upcoming events, testimonies, and ministry updates.');
 
   const pastors = [
     { id: 1, name: 'Pastor Graham Kater', specialty: 'Youth Ministry', image: 'https://placehold.co/150x150/4f46e5/white?text=PW' },
@@ -373,7 +375,7 @@ const App = () => {
           <div className="space-y-8">
             <div className="bg-blue-50 p-6 rounded-lg">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">November 2025 Newsletter</h2>
-              <p className="text-gray-700 mb-4">This month's newsletter features our upcoming events, testimonies, and ministry updates.</p>
+              <p className="text-gray-700 mb-4">{newsletterDesc}</p>
               <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                 Download PDF
               </button>
@@ -831,6 +833,7 @@ const App = () => {
       case 'pastor': return <PastorPage />;
       case 'pastorRegister': return <PastorRegisterPage />;
       case 'live': return <LiveStreamPage />;
+      case 'admin': return <AdminPage />;
       default: return <HomePage />;
     }
   };
