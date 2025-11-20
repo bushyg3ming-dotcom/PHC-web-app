@@ -1,44 +1,44 @@
-import React, { useState } from 'react';
-import { Calendar, Mail, CreditCard, MessageCircle, Video, DollarSign, Send, Play, Phone, MapPin, Clock, Users, BookOpen, X, Menu, Camera, Plus, Cross, Church } from 'lucide-react';
+<button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Sunday Service - November 9, 2025</button>
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Youth Night - November 12, 2025</button>
+                  <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                    Women's Ministry - November 5, 2025</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
-const App = () => {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [announcements, setAnnouncements] = useState([
-    { id: 1, title: 'Sunday Service This Weekend', date: 'Nov 16, 2025', content: 'Join us for our weekly worship service with Pastor Kater. Special music and testimonies.' },
-    { id: 2, title: 'Youth Group Meeting', date: 'Nov 18, 2025', content: 'Youth group meeting in Fellowship Hall at 7 PM. Bring a friend!' },
-    { id: 3, title: 'Women\'s Ministry Retreat', date: 'Dec 5-7, 2025', content: 'Annual women\'s retreat at the conference center. Register by Nov 25.' }
-  ]);
+  const renderPage = () => {
+    switch(currentPage) {
+      case 'home': return <HomePage />;
+      case 'events': return <EventsPage />;
+      case 'announcements': return <AnnouncementsPage />;
+      case 'newsletter': return <NewsletterPage />;
+      case 'donations': return <DonationsPage />;
+      case 'pastor': return <PastorPage />;
+      case 'pastorRegister': return <PastorRegisterPage />;
+      case 'live': return <LiveStreamPage />;
+      case 'admin': return <AdminPage />;
+      default: return <HomePage />;
+    }
+  };
 
-  const [donationAmount, setDonationAmount] = useState(50);
-  const [donationName, setDonationName] = useState('');
-  const [donationEmail, setDonationEmail] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [selectedPastor, setSelectedPastor] = useState('');
-  const [currentVideo, setCurrentVideo] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
-  const [events, setEvents] = useState([
-    { id: 1, title: 'Youth Camp', date: 'Dec 15-17, 2025', description: 'Annual youth camp with worship, games, and fellowship.', image: 'https://placehold.co/600x400/4f46e5/white?text=Youth+Camp' },
-    { id: 2, title: 'Women\'s Retreat', date: 'Jan 10-12, 2026', description: 'Annual women\'s retreat with workshops and prayer sessions.', image: 'https://placehold.co/600x400/ec4899/white?text=Women%27s+Retreat' }
-  ]);
-  const [newEvent, setNewEvent] = useState({ title: '', date: '', description: '', image: null });
-  const [anonymousMode, setAnonymousMode] = useState(false);
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      {renderPage()}
 
-  const pastors = [
-    { id: 1, name: 'Pastor Graham Kater', specialty: 'Youth Ministry', image: 'https://placehold.co/150x150/4f46e5/white?text=PW' },
-    { id: 2, name: 'Pastor Sarah Johnson', specialty: 'Women\'s Ministry', image: 'https://placehold.co/150x150/ec4899/white?text=SJ' },
-    { id: 3, name: 'Pastor Michael Brown', specialty: 'Men\'s Ministry', image: 'https://placehold.co/150x150/0ea5e9/white?text=MB' },
-    { id: 4, name: 'Pastor Lisa Davis', specialty: 'Children\'s Ministry', image: 'https://placehold.co/150x150/10b981/white?text=LD' }
-  ];
-
-  const handleSendMessage = () => {
-    if (newMessage.trim() && selectedPastor) {
-      const message = {
-        id: messages.length + 1,
-        pastor: selectedPastor,
-        message: newMessage,
-        timestamp: new Date().toLocaleTimeString(),
-        status: 'sent',
+      {/* Footer */}
+      <footer className="bg-blue-900 text-white py-8 mt-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">PHC</h3>
         anonymous: anonymousMode
       };
       setMessages([...messages, message]);
