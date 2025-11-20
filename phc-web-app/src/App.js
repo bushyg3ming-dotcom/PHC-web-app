@@ -95,8 +95,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
-              { id: 'live', label: 'Live Stream', icon: Video },
-              { id: 'admin', label: 'Admin', icon: Video }
+              { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
                 key={item.id}
@@ -130,8 +129,7 @@ const App = () => {
               { id: 'donations', label: 'Donations', icon: CreditCard },
               { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
               { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
-              { id: 'live', label: 'Live Stream', icon: Video },
-              { id: 'admin', label: 'Admin', icon: Video }
+              { id: 'live', label: 'Live Stream', icon: Video }
             ].map(item => (
               <button
                 key={item.id}
