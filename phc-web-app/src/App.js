@@ -82,8 +82,7 @@ const App = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
             <Heart className="h-8 w-8 text-yellow-400" />
-            <span className="text-xl font-bold hidden sm:block">Pentecostal Holiness Church</span>
-            <span className="text-xl font-bold sm:hidden">PHC</span>
+            <span className="text-xl font-bold">PHC</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -160,7 +159,7 @@ const App = () => {
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 text-center">
           <Heart className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Pentecostal Holiness Church</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">PHC</h1>
           <p className="text-xl text-gray-600 mb-6">Where Faith Meets Community</p>
           <div className="grid md:grid-cols-3 gap-6 mt-8">
             <div className="bg-blue-50 p-6 rounded-lg">
@@ -962,7 +961,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">Pentecostal Holiness Church</h3>
+              <h3 className="text-lg font-semibold mb-4">PHC</h3>
               <p className="text-blue-200">Where faith meets community and God's love transforms lives.</p>
             </div>
             <div>
@@ -980,7 +979,7 @@ const App = () => {
             </div>
           </div>
           <div className="border-t border-blue-700 mt-8 pt-8 text-center text-blue-200">
-            <p>&copy; 2025 Pentecostal Holiness Church. All rights reserved.</p>
+            <p>&copy; 2025 PHC. All rights reserved.</p>
           </div>
         </div>
       </footer>
