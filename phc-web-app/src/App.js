@@ -88,14 +88,14 @@ const App = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6">
             {[
-              { id: 'home', label: 'Home', icon: Heart },
-              { id: 'events', label: 'Events', icon: Calendar },
-              { id: 'announcements', label: 'Announcements', icon: Calendar },
-              { id: 'newsletter', label: 'Newsletter', icon: Mail },
-              { id: 'donations', label: 'Donations', icon: CreditCard },
-              { id: 'pastor', label: 'Ask a Pastor', icon: MessageCircle },
-              { id: 'pastorRegister', label: 'Pastor Register', icon: Users },
-              { id: 'live', label: 'Live Stream', icon: Video }
+              { id: 'home', label: 'Home' },
+              { id: 'events', label: 'Events' },
+              { id: 'announcements', label: 'Announcements' },
+              { id: 'newsletter', label: 'Newsletter' },
+              { id: 'donations', label: 'Donations' },
+              { id: 'pastor', label: 'Ask a Pastor' },
+              { id: 'pastorRegister', label: 'Pastor Register' },
+              { id: 'live', label: 'Live Stream' }
             ].map(item => (
               <button
                 key={item.id}
